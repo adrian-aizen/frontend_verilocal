@@ -1,8 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
+import { useRouter } from "expo-router";
 import axios from "axios";
 import { useFonts } from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
 import {
@@ -140,7 +142,7 @@ export default function RegisterProduct() {
         formData.append("process_image", form.processImage);
       }
 
-      await axios.post("http://localhost:3000/api/products", formData, {
+      await axios.post("https://verilocal.onrender.com/api/products", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -162,11 +164,18 @@ export default function RegisterProduct() {
     }
   };
 
+  const router = useRouter();
+
   return (
     <ScrollView 
       style={{ flex: 1, backgroundColor: "#f6f7fb" }}
       contentContainerStyle={{ alignItems: "center", paddingVertical: 20 }}
     >
+      <View style={{ position: "absolute", top: 20, left: 20, zIndex: 10}}>
+        <Pressable onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={40} color="#333" style={{ marginBottom: 10, marginLeft: 10 }} />
+        </Pressable>
+      </View>
       <View style={[styles.card, isMobile && {flexDirection: "column"}]}>
       {/* LEFT BANNER IMAGE */}
         <View style={[styles.leftPanel, isMobile && { width: "100%", height: 200 }]}>
